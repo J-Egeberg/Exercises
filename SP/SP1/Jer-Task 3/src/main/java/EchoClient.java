@@ -56,12 +56,20 @@ public class EchoClient {
     }
 
     public static void main(String[] args) throws IOException {
-        EchoClient client = new EchoClient("localhost", 8080);
+        //start client
+        EchoClient client = new EchoClient("localhost", 7080);
+
+        //open client
         client.open();
-        System.out.println("Choose between\nUPPER#Hello World\nLOWER#hello world\nTRANSVERSE#dcba\nTRANSLATE#Hund\nEnter your command in the console now:");
+
+        //User choices
+        System.out.println("Choose between\nUPPER#Hello World\nLOWER#hello world\nTRANSVERSE#dcba\nTRANSLATE#hund\nEnter your command in the console now:");
+
+        //creating scanner object for user input
         Scanner scanner = new Scanner(System.in);
         String request = scanner.nextLine();
 
+        //Sending message with our variable
         client.sendMessage(request);
 
         //outcomment the message you want to sent
@@ -74,7 +82,10 @@ public class EchoClient {
 
         //client.sendMessage("TRANSLATE#hund");
 
+        //stores answer from server and reads it
         String message = client.readMessage();
+
+        //print the reply in console
         System.out.println(message);
 
     }

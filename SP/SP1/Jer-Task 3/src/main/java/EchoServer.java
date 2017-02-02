@@ -36,11 +36,18 @@ public class EchoServer {
         Socket connection;
         while ((connection = socket.accept()) != null) {
             // Handle the connection in the #handleConnection method below
-            handleConnection(connection);
-            // Now the connection has been handled and we've sent our reply
-            // -- So now the connection can be closed so we can open more
-            //    sockets in the future
-            connection.close();
+
+            try {
+                handleConnection(connection);
+            } catch (SocketException exception) {
+                socket.close();
+            }
+
+                // Now the connection has been handled and we've sent our reply
+                // -- So now the connection can be closed so we can open more
+                //    sockets in the future
+                connection.close();
+
         }
     }
 
@@ -50,26 +57,40 @@ public class EchoServer {
      * @param connection The Socket connection which is connected to the client.
      * @throws IOException If network or I/O or something goes wrong.
      */
-    private void handleConnection(Socket connection) throws IOException {
+    private void handleConnection(Socket connection) throws IOException, SocketException {
         InputStream input = connection.getInputStream();
         OutputStream output = connection.getOutputStream();
         // Read whatever comes in
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
+        //saves the input (as a string) and stores in a new variable for later use
         String inputFormat = reader.readLine();
+
+        //creating variable to store the output
         String line = "";
-        //here we need to check what the first letter of the message is so we can determin which message we should return in the writer
+        boolean isMessageSent = false;
+        //here we need to check what the command is so we can determin which message we should return in the writer
         //based on the credentials specified in the assignment
         if (inputFormat.contains("UPPER#Hello World")) {
             line = "HELLO WORLD";
-        } else if (inputFormat.contains("LOWER#Hello World")) {
+            isMessageSent = true;
+        }
+        if (inputFormat.contains("LOWER#Hello World")) {
             line = "hello world";
-        } else if (inputFormat.contains("TRANSVERSE#abcd")) {
+            isMessageSent = true;
+        }
+        if (inputFormat.contains("TRANSVERSE#abcd")) {
             line = "Dcba";
-        } else if (inputFormat.contains("TRANSLATE#hund")) {
+            isMessageSent = true;
+        }
+        if (inputFormat.contains("TRANSLATE#hund")) {
             line = "dog";
-        } else { System.out.println("String not available, " + new SocketException("Shutdown"));
-
+            isMessageSent = true;
+        }
+            //if we get to this point without any other if statements being met, we would like to disconnect our connection
+        if (!isMessageSent) {
+            System.out.println("String not available Shutdown ");
+            throw new SocketException();
         }
 
         // Print the new line to the client
@@ -78,11 +99,10 @@ public class EchoServer {
     }
 
     public static void main(String[] args) throws IOException {
-        EchoServer server = new EchoServer("localhost", 8080);
+        EchoServer server = new EchoServer("localhost", 7080);
 
-        // This method will block, forever!
-        server.startServer();
-
+        // This method will block, forever
+            server.startServer();
     }
 
 
