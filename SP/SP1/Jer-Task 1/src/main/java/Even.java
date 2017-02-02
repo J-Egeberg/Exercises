@@ -38,6 +38,10 @@ public class Even implements Iterator<Long> {
         throw new NotImplementedException();
     }
 
+    public void remove() {
+
+    }
+
     /**
      * Test your solution here by calling {@link #next()} from different threads.
      *
