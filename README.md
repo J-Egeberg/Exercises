@@ -2,7 +2,7 @@
 
 ## Answers to general part of the assignment
 
-##Explain about Thread programming including:
+##Explanation about Thread programming including:
 
 ### When and why we use Threads in programs?
 
