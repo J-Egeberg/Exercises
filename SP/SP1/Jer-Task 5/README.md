@@ -12,7 +12,7 @@ throw random thread into the method (godmode). We could alså use the Lock/Unloc
 is in the method at a time
 
 ##3
-
+A Thread is reusable. In our Controller class the thread can be used to do instructions. The thread can carry out HTTP requests and responds and be ready for a new http request/response again afterwards
 
 ##4
 Deadlocking occurs when 2 threads wait for the same thing. This means the Thread DIES forever and the program shuts down. 
