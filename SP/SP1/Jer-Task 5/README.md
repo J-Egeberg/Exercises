@@ -2,7 +2,7 @@
 
 ##1
 A thread is a list of instructions. We use it in java to run specific code with specific instructions based on the thread.
-Threads can run concurrently in our program and therefore we can execute more tasks at once.
+Threads can run concurrently in our program and therefore we can execute more tasks at once. This mean that even though our laptop only has f. eks 1 core we can still execute multiple tasks (threads) at once.
 
 ##2
 "Race conditions" is a term we use when multiple threads run simultaneously. It only occurs if it matters in which order the specific
