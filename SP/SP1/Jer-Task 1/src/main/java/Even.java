@@ -1,6 +1,9 @@
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <h2>Task 2</h2>
@@ -17,7 +20,7 @@ import java.util.Iterator;
 public class Even implements Iterator<Long> {
 
     // The counter containing the number the iterator has reached.
-    private long counter;
+    private AtomicLong counter =  new AtomicLong(-2);
 
     /**
      * This has 2^64 numbers. That's a lot!
@@ -27,6 +30,7 @@ public class Even implements Iterator<Long> {
     @Override
     public boolean hasNext() {
         // Don't change this: we assume we always have another number
+
         return true;
     }
 
@@ -34,12 +38,13 @@ public class Even implements Iterator<Long> {
      * @return The next even number in the iterator.
      */
     @Override
-    public Long next() {
-        throw new NotImplementedException();
+    public synchronized Long next() {
+        return counter.addAndGet(2);
+
     }
 
-    public void remove() {
-
+    private AtomicLong getCounter() {
+        return counter;
     }
 
     /**
@@ -48,7 +53,54 @@ public class Even implements Iterator<Long> {
      * @param args Input arguments to the main method. Unused.
      */
     public static void main(String[] args) {
-
+        Even even = new Even();
+        Runnable runnable = () -> {
+            even.next();
+            System.out.printf("Number: %s \n", even.getCounter());
+            if ( (even.getCounter().get() % new AtomicLong(2).get()) == (new AtomicLong(1).get()) ) {
+                System.out.printf("--------------------------: ERROR at %s \n", even.getCounter());
+            }
+        };
+        Even evenTwo = new Even();
+        Runnable runnableTwo = () -> {
+            evenTwo.next();
+            System.out.printf("Number: %s \n", evenTwo.getCounter());
+            if ( (evenTwo.getCounter().get() % new AtomicLong(2).get()) == (new AtomicLong(1).get()) ) {
+                System.out.printf("--------------------------: ERROR at %s \n", evenTwo.getCounter());
+            }
+        };
+        Even evenThree = new Even();
+        Runnable runnableThree = () -> {
+            evenThree.next();
+            System.out.printf("Number: %s \n", evenThree.getCounter());
+            if ( (evenThree.getCounter().get() % new AtomicLong(2).get()) == (new AtomicLong(1).get()) ) {
+                System.out.printf("--------------------------: ERROR at %s \n", evenThree.getCounter());
+            }
+        };
+        Even evenFour = new Even();
+        Runnable runnableFour = () -> {
+            evenFour.next();
+            System.out.printf("Number: %s \n", evenFour.getCounter());
+            if ( (evenFour.getCounter().get() % new AtomicLong(2).get()) == (new AtomicLong(1).get()) ) {
+                System.out.printf("--------------------------: ERROR at %s \n", evenFour.getCounter());
+            }
+        };
+        List<Thread> threadList = new ArrayList<>();
+        boolean isReady = true;
+        while (isReady) {
+            Thread thread = new Thread( runnable );
+            threadList.add( thread );
+            Thread threadTwo = new Thread( runnableTwo );
+            threadList.add( threadTwo );
+            Thread threadThree = new Thread( runnableThree );
+            threadList.add( threadThree );
+            Thread threadFour = new Thread( runnableFour );
+            threadList.add( threadFour );
+            if (threadList.size() > 1000000) {
+                isReady = false;
+            }
+        }
+        threadList.forEach(Thread::start);
     }
 
 }

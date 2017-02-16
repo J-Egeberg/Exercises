@@ -1,59 +1,29 @@
-# Exercise 1: Handling threads
+# Exercise 1: Handling threads with Jonas
 
 ## Task 1
-Open this repository in your favourite editor and open the ``Threads`` and 
-read the exercises inside.
+Basicly this is about threads.
+- TASK: *Starts three threads that execute three methods simultaneously.*
+- TASK: *Stop / kill the thread running the third method after waiting 10 seconds.*
+- LEARNED: *So the task learned me that to start threads, if you wanna stop / interrupt them, you need to have the reference to them.*
+- LEARNED: *And that place the thread in the highest level possible of your code, so you have the complete sections of code run, but it still seems i don't control it from there*
 
 ## Task 2
-Open this repository in your favourite editor and open the ``Even`` and 
-read the exercises inside.
+Basicly this is about calculations with threads
+- TASK: *This class should only return even numbers. It will be called from many different threads, so it has to be thread-safe*
+- LEARNED: *Both the AtomicLong, and the Reentrantlock solved this issue, with not calculating it by 2 every time the thread was called simultaniesly*
 
 ## Task 3 - 5
-The three tasks are available from this repository
-[https://github.com/Lars-m/threadExDay1.git](https://github.com/Lars-m/threadExDay1.git).
-Clone or fork the repository and read the description below.
+- Forked and looked on, but skipped to try Task 6 before this.
 
 ### Task 3 (Blocking the GUI-thread)
-Execute the main method in ex3.BallDemo.java. There is a problem here. Can you find it?
-
-Solve the problem by rewriting the Ball class to extend ``Thread`,
-so that 1) the balls can be started / stopped asynchronously and 2) the program 
-can be terminated by pressing the cross.
-
-### Exercise 4 (race condition)
-Use the code in the package ex4 as start code for this exercise. This program simulates a 
-large football stadium with many turnstiles that each updates a shared counter, for each 
-spectator that passes a turnstile.
-
-Initially, the code is set up to simulate 40 turnstiles, each (running in a separate thread) 
-simulates that 1000 spectators pases.
-
-Execute the code and observe the reslult of the shared counter.
-
-If the result is not as expected, solve the problem:
-1) Using the traditional synchronization
-2) Using a AtomicInteger
-3) Using a java.util.concurrent.locks.ReentrantLock
+- Looked on, but skipped to try Task 6 before this.
 
 ### Exercise 5 (race condition)
-Execute the main code in either ``ex5.BankApp.java`` or ``ex5.BankAppExecutor.java``
-
-The program includes a method executeTransactions () which executes a series of transactions 
-on a shared account object and prints true / false depending on the expected outcome.
-
-* Identify places in the code where it "goes wrong".
-* What should the closing balance be?
-
-**Experiment**: Increase the number of calls of executeTransactions () or the number of 
-threads and observe the effect.
-
-Observe that there are two versions of the main() method, one that creates threads in a 
-traditional way, and one using an ``ExecutorService`` (the recommended way).
-
-Solve the problem in the Bank program:
-1) Using the traditional synchronization
-2) Using a java.util.concurrent.locks.ReentrantLock
+- Looked on, but skipped to try Task 6 before this.
 
 ## Task 6
-Open this repository in your favourite editor and open the ``Printer`` and 
-read the exercises inside.
+Basicly this task is about looping read commands (printing) in simultanious threads
+- TASK: Assign alpabet printing to 4 different threads and start them all simultaneously.
+- TASK: Before you run explain why you run them, what do you expect will print? Did you see what you expected? 
+- LEARNED: I expected the alphabet to be printed fully from a to z before turning to the next alphabet, but didn't work.
+- LEARNED: CachedThreadPool is a great tool for making it concurrent.
